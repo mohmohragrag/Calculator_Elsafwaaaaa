@@ -81,27 +81,22 @@ function calculateWeight() {
 
             case "Hollow Structural Sections - Square":
                     const [lengthSquare, sideLengthSquare, thicknessSquare] = values;
-                    const lengthM = lengthSquare / 1000; // تحويل الطول إلى متر
-                    const sideLengthM = sideLengthSquare / 1000; // تحويل طول الجانب إلى متر
-                    const thicknessM = thicknessSquare / 1000; // تحويل السماكة إلى متر
-                
-                    // حساب المساحة الخارجية والداخلية
-                    const outerArea = Math.pow(sideLengthM, 2); // مساحة المربع الخارجي
-                    const innerArea = Math.pow(sideLengthM - 2 * thicknessM, 2); // مساحة المربع الداخلي
-                
-                    // حساب الحجم
-                    const volume = (outerArea - innerArea) * lengthM; 
-                
-                    // حساب الوزن (كثافة الفولاذ تقريبًا 7850 كجم/م³)
-                    weight = volume * 7850; 
+                    // حساب الوزن للقسم المربع
+                    weight = (lengthSquare / 1000) * 
+                             ((sideLengthSquare / 1000) * (sideLengthSquare / 1000) - 
+                              ((sideLengthSquare - 2 * thicknessSquare) / 1000) * 
+                              ((sideLengthSquare - 2 * thicknessSquare) / 1000)) * density;
                     break;
                 
-                
-
             case "Hollow Structural Sections - Rectangular":
-                const [lengthRect, widthRect, heightRect, thicknessRect] = values;
-                weight = (lengthRect / 1000) * ((widthRect / 1000) * (heightRect / 1000) - ((widthRect - 2 * thicknessRect) / 1000) * ((heightRect - 2 * thicknessRect) / 1000)) * density;
-                break;
+                    const [lengthRect, widthRect, heightRect, thicknessRect] = values;
+                    // حساب الوزن للقسم المستطيل
+                    weight = (lengthRect / 1000) * 
+                             ((widthRect / 1000) * (heightRect / 1000) - 
+                              ((widthRect - 2 * thicknessRect) / 1000) * 
+                              ((heightRect - 2 * thicknessRect) / 1000)) * density;
+                    break;
+                
 
             case "Round Steel Bars":
                 const [lengthRound, diameterRound] = values;
